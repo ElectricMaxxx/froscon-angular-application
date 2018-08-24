@@ -44,79 +44,79 @@ const defaultProject: Project = {
 
 const epubtypes = [
   {
-     'name':'abstract',
+     'name': 'abstract',
      'group': 'Front Matter',
-     'description':'A short summary of the principle ideas, concepts and conclusions of the work, or of a section or except within it.'
+     'description': 'A short summary of the principle ideas, concepts and conclusions of the work, or of a section or except within it.'
   },
   {
-     'name':'foreword',
+     'name': 'foreword',
      'group': 'Front Matter',
-     'description':'An introductory section that precedes the work, typically not written by the work\'s author.'
+     'description': 'An introductory section that precedes the work, typically not written by the work\'s author.'
   },
   {
-     'name':'preface',
+     'name': 'preface',
      'group': 'Front Matter',
-     'description':'An introductory section that precedes the work, typically written by the work\'s author.'
+     'description': 'An introductory section that precedes the work, typically written by the work\'s author.'
   },
   {
-     'name':'introduction',
+     'name': 'introduction',
      'group': 'Front Matter',
-     'description':'A section in the beginning of the work, typically introducing the reader to the scope or nature of the work\'s content.'
+     'description': 'A section in the beginning of the work, typically introducing the reader to the scope or nature of the work\'s content.'
   },
   {
-     'name':'preamble',
+     'name': 'preamble',
      'group': 'Front Matter',
-     'description':'A section in the beginning of the work, typically containing introductory and/or explanatory prose regarding the scope or nature of the work\'s content'
+     'description': 'A section in the beginning of the work, typically containing introductory and/or explanatory prose regarding the scope or nature of the work\'s content'
   },
   {
-     'name':'epigraph',
+     'name': 'epigraph',
      'group': 'Front Matter',
-     'description':'A quotation that is pertinent but not integral to the text.'
+     'description': 'A quotation that is pertinent but not integral to the text.'
   },
   {
-     'name':'non-specific frontmatter',
+     'name': 'non-specific frontmatter',
      'group': 'Front Matter',
      'description': 'Content placed in the frontmatter section, but which has no specific semantic meaning.'
   },
   {
-     'name':'part',
+     'name': 'part',
      'group': 'Body Matter',
-     'description':'An introductory section that sets the background to a story, typically part of the narrative.'
+     'description': 'An introductory section that sets the background to a story, typically part of the narrative.'
   },
   {
-     'name':'chapter',
+     'name': 'chapter',
      'group': 'Body Matter',
-     'description':'An introductory section that sets the background to a story, typically part of the narrative.'
+     'description': 'An introductory section that sets the background to a story, typically part of the narrative.'
   },
   {
-     'name':'prologue',
+     'name': 'prologue',
      'group': 'Body Matter',
-     'description':'An introductory section that sets the background to a story, typically part of the narrative.'
+     'description': 'An introductory section that sets the background to a story, typically part of the narrative.'
   },
   {
-     'name':'conclusion',
+     'name': 'conclusion',
      'group': 'Body Matter',
-     'description':'An ending section that typically wraps up the work.'
+     'description': 'An ending section that typically wraps up the work.'
   },
   {
-     'name':'epilogue',
+     'name': 'epilogue',
      'group': 'Body Matter',
-     'description':'A concluding section that is typically written from a later point in time than the main story, although still part of the narrative.'
+     'description': 'A concluding section that is typically written from a later point in time than the main story, although still part of the narrative.'
   },
   {
-     'name':'afterword',
+     'name': 'afterword',
      'group': 'Back Matter',
-     'description':'A closing statement from the author or a person of importance to the story, typically providing insight into how the story came to be written, its significance or related events that have transpired since its timeline.'
+     'description': 'A closing statement from the author or a person of importance to the story, typically providing insight into how the story came to be written, its significance or related events that have transpired since its timeline.'
   },
   {
-     'name':'non-specific backmatter',
+     'name': 'non-specific backmatter',
      'group': 'Back Matter',
      'description': 'Content placed in the backmatter section, but which has no specific semantic meaning.'
   },
   {
-     'name':'rearnote',
+     'name': 'rearnote',
      'group': 'Back Matter',
-     'description':'A note appearing in the rear (backmatter) of the work, or at the end of a section.'
+     'description': 'A note appearing in the rear (backmatter) of the work, or at the end of a section.'
   }
 ];
 
@@ -133,8 +133,7 @@ export class AppComponent implements OnChanges, OnInit {
     width: '100%',
     height: '90%',
     onClosed: 'js:function(){for(name in CKEDITOR.instances){ CKEDITOR.instances[name].destroy(true);}}'
-)
-  }
+  };
   constructor(private winRef: WindowRef, private storage: LocalStorage) {}
 
   private fillMissingValues(): void {
@@ -193,7 +192,7 @@ export class AppComponent implements OnChanges, OnInit {
 
   onSectionTypeChange(event, section): void {
     this.project.book.sections.forEach(s => {
-      if (s.id == section.id) {
+      if (s.id === section.id) {
         s.type = event.target.value;
       }
     });
@@ -202,7 +201,7 @@ export class AppComponent implements OnChanges, OnInit {
   setSectionId(section): void {
     const newId = this.slugify(section.content.title);
     this.project.book.sections.forEach(s => {
-      if (s.id == section.id) {
+      if (s.id === section.id) {
         s.id = newId;
       }
     });
@@ -264,7 +263,7 @@ export class AppComponent implements OnChanges, OnInit {
       description: this.project.book.metaData.rights.description,
       license: this.project.book.metaData.rights.attributionUrl
     })
-    .withAttributionUrl(this.project.book.metaData.attributionUrl)
+    .withAttributionUrl(this.project.book.metaData.attributionUrl);
     // .withCover(this.project.book.cover.path, {
     //   license: this.project.book.cover.licence,
     //   attributionUrl: this.project.book.cover.attributionUrl
