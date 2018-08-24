@@ -1,20 +1,193 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Epub Creator</a>
+  <span class="navbar-text justify-content-center">
+    <p class="text-danger font-weight-bold">
+      <b>DISCLAIMER: </b>There is no real persistence available.
+    </p>
+  </span>
+  <div class="justify-content-end">
+    <a href="#" (click)="downloadAsEbook()" class="download-button">Download EPUB</a>
+    &nbsp;
+    <button (click)="saveToLocal()" class="download-button" [disabled]="saveDisabled">Save Local</button>
+  </div>
+</nav>
 
+<form>
+<div class="container-fluid>">
+  <div class="card-group">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="display-4">Project Values</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="project.title">Title</label>
+                <input type="text" class="form-control" [(ngModel)]="project.title" name="project-title" autocomplete="name" />
+            </div>
+            <div class="form-group">
+                <label for="project-description">Description</label>
+                <textarea class="form-control" [(ngModel)]="project.description" name="project-description"></textarea>
+            </div>
+
+            <button class="sucess" (click)="addProjectAuthor()">Add Author</button>
+            <div class="form-group form-inline" *ngFor="let author of project.authors">
+                <input type="text" class="form-control col-4" [(ngModel)]="author.name" placeholder="Author Name" name="project-author[{{ author.name }}]" autocomplete="name"/>
+                <input type="text" class="form-control col-4" [(ngModel)]="author.email" placeholder="Author Email" name="project-author[{{ author.email }}]" autocomplete="email"/>
+            <button class="danger col-4" (click)="removeProjectAuthor(author.email)">remove</button>
+            </div>
+            <button class="sucess" (click)="addNote()">Add Note</button>
+            <div class="form-group form-inline" *ngFor="let note of project.notes">
+                <input type="text" class="form-control col-3" [(ngModel)]="note.author" placeholder="Note" name="note-author[{{ note.author }}]" autocomplete="name"/>
+                <input type="date" class="form-control col-3" [(ngModel)]="note.date" placeholder="Note" name="note-date[{{ note.date }}]" autocomplete="bday-day" />
+                <textarea class="form-control col-4" [(ngModel)]="note.message" placeholder="Note Mesage" name="note-message-[{{ note.message }}]"></textarea>
+                <button class="danger" (click)="removeNote(note.author)">Remove</button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="display-4">Book Meta Values</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="book-meta-language">Language</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="project.book.metaData.language"
+                    name="book-meta-language" 
+                    autocomplete="language" />
+            </div>
+            <div class="form-group form-inline">
+                <label for="book-meta-rights-url">Rights URL</label>
+                <textarea
+                    class="form-control"
+                    [(ngModel)]="project.book.metaData.rights.description"
+                    name="book-meta-right-description"></textarea>
+                <label for="book-meta-attributionUrl">Rights Attribution Url</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="project.book.metaData.rights.attributionUrl"
+                    placeholder="Rights Attribution URL"
+                    name="book-meta-rights-url"
+                    autocomplete="url" />
+            </div>
+            <div class="form-group form-inline">
+                <label for="book-meta-attributionUrl">General Attribution Url</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="project.book.metaData.attributionUrl"
+                    placeholder="General Attribution Url"
+                    name="book-meta-attributionUrl"
+                    autocomplete="url" />
+            </div>
+            <button class="sucess" (click)="addMetaAuthor()">Add Author</button>
+            <div class="form-group form-inline" *ngFor="let author of project.book.metaData.authors">
+                <input
+                    type="text"
+                    class="form-control col-4"
+                    [(ngModel)]="author.name"
+                    placeholder="Author Name"
+                    name="project-author[{{ author.name }}]" 
+                    autocomplete="url "/>
+                <input
+                    type="text"
+                    class="form-control col-4"
+                    [(ngModel)]="author.email"
+                    placeholder="Author Email"
+                    name="project-author[{{ author.email }}]" 
+                    autocomplete="email" />
+                <button class="danger col-4" (click)="removeMetaAuthor(author.email)">remove</button>
+            </div>
+        </div>
+        <div class="card-footer">
+            <h6>{{ project.book.metaData.lastModificationDate }}</h6>
+        </div>
+    </div>
+
+    <div class="card">
+    <div class="card-header">
+        <h4 class="display-4">Book Values</h4>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="book-title">Title</label>
+            <input type="text" class="form-control" [(ngModel)]="project.book.title" name="book-title" />
+        </div>
+        <div class="form-group">
+            <label for="book-template">Template</label>
+            <input type="text" class="form-control" [(ngModel)]="project.book.template" name="book-template" readonly/>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<form>
+    <div class="jumbotron">
+        <h3 class="display-4">Sections</h3>
+        <hr class="my-4" />
+        <a class="btn btn-success btn-lg" (click)="addSection()">Add Section</a>
+        <div id="accordion">
+            <div class="card" *ngFor="let section of project.book.sections">
+                <div class="card-header" id="heading-{{ section.id }}">
+                    <h5 class="mb-0">
+                        <button
+                            class="btn btn-link"
+                            data-toggle="collapse"
+                            [attr.data-target]="'#' + getDataTargetForSection(section)"
+                            aria-expanded="true"
+                            [attr.aria-controls]="getDataTargetForSection(section)">
+                            {{ section.content.title }}
+                        </button>
+                        <button class="btn btn-danger pull-right btn-sm" (click)="removeSection(section.id)">remove</button>
+                    </h5>
+                </div>
+                <div
+                    id="{{ getDataTargetForSection(section) }}"
+                    class="collapse show card-body section-body"
+                    data-parent="#accordion">
+                    <div class="form-group form-inline">
+                        <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="section.content.title"
+                            (change)="setSectionId(section)"
+                            placeholder="Section Title"
+                            name="section-{{ section.id }}-content-title" />
+                        <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="section.id"
+                            readonly="true"
+                            placeholder="Section ID"
+                            name="section-{{ section.id }}-id" />
+                        <select
+                            class="form-control" 
+                            (change)="onSectionTypeChange($event, section)">
+                            <option
+                                [attr.title]="option.description"
+                                [ngValue]="option.name"
+                                [selected]="option.name == section.type"
+                                *ngFor="let option of epubTypes">
+                                {{ option.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <ckeditor
+                            class="form-control"
+                            [config]="ckeditorConfig"
+                            [(ngModel)]="section.content.content"
+                            placeholder="Section Content"
+                            name="section-[{{ section.id }}]-content-content"></ckeditor>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

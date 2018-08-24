@@ -1,5 +1,25 @@
 # EbookPrototype
 
+This project is an example appplicaiton for two use cases:
+
+1. Experiements to create epub books for myself
+2. Bad Code example to refactor and to learn angular applications
+
+So what we gonna do here is (afeter having a short intor into general structure und elements of an angular application):
+
+- build services to separate logic code and display code 
+- build lots components to separate and reuse templating code
+- decorate the third party usages
+
+Doing so we will learn lots of core features of angular:
+
+- components and templating
+- databing for sure
+- form handling, maybe we can also have a look into reactive forms too
+- dependency injection
+
+## Former Readme with install hints
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.1.
 
 ## Development server
