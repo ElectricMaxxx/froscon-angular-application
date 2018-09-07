@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Project, Licence } from './models';
+import { Project, Licence, Section } from './models';
 import { WindowRef } from './service/WindowRef';
 import * as moment from 'moment';
 import { LocalStorage } from '@ngx-pwa/local-storage';
@@ -251,6 +251,21 @@ export class AppComponent implements OnChanges, OnInit {
 
   removeSection(id: string): void {
     this.project.book.sections = this.project.book.sections.filter(section => section.id !== id);
+  }
+
+  addSubSection(sectionId: string): void {
+    const section: Section = this.project.book.sections.filter(section => section.id !== sectionId).pop();
+    section.subsections.push({
+      id: '',
+      type: '',
+      content: {
+        title: '',
+        content: ''
+      },
+      includeInLandmarks: false,
+      includeInToc: true
+      });
+
   }
 
   downloadAsEbook(): void {
