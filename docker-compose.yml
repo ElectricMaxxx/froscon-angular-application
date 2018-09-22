@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  app:
+    restart: always
+    container_name: PRB_EBOOK_PROTOTYPE_${CI_COMMIT_REF_SLUG:-master}
+    build:
+      context: ./
+      dockerfile: .docker/app/prod/Dockerfile
+    image: registry.gitlab.com/froscon-php-track/${CI_COMMIT_REF_SLUG:-master}
+    ports:
+      - '9096:80'
+    networks:
+      - prb
+networks:
+  prb:

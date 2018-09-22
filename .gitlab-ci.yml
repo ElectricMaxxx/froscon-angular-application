@@ -1,0 +1,35 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
+
+cache:
+  key: "$CI_BUILD_REF_NAME PRB Ebook Prototype"
+  paths:
+  - node_modules/
+
+stages:
+- build
+- deploy
+
+build-docker-image:
+  stage: build
+  image: docker:stable
+  services:
+  - docker:dind
+  script:
+  - apk add --update make
+  - apk add --no-cache python3
+  - pip3 install docker-compose
+  - make docker_release
+
+deploy:
+  stage: deploy
+  when: manual
+  script:
+    - apk add --update make
+    - apk add --no-cache python3
+    - pip3 install docker-compose
+    - scp -r docker-compose.yml ${SSH_USER}@${SSH_HOST}:/data/ebook-prototype
+    - scp -r docker-compose.overwrite.yml ${SSH_USER}@${SSH_HOST}:/data/ebook-prototype
+    - scp -r Makefile ${SSH_USER}@${SSH_HOST}:/data/ebook-prototype
+    - ssh ${SSH_USER}}@${SSH_HOST} "cd /data/ebook-prototype && make docker_deploy"
